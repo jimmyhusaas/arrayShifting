@@ -1,19 +1,30 @@
-# 🐳 Run with Docker
+##  Prerequisites
 
-1️⃣ Build the Docker Image
+Ensure you have the following installed:
+
+- **JDK 17+**
+- **Maven 3.8+**
+- **Docker**
+
+## ⚙️ Build and Run
+
+###  1. Build the JAR
+```
+mvn clean package
+```
+### 2. Build the Docker Image
 ```
 docker build -t shift-service-image .
 ```
-2️⃣ Run the Container
+### 3. Run the Container
 ```
 docker run -d -p 8080:8080 --name shift-service shift-service-image
 ```
----
-# PORT: 8080
+## API Documentation
 
----
+Once the service is running, you can access the Swagger UI at:
 
-# API Documentation
+📌 http://localhost:8080/swagger-ui.html
 
-Swagger UI is available at: http://localhost:8080/swagger-ui.html
-
+🔧 Configuration  
+•	Application Port: 8080
