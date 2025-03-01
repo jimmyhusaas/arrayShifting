@@ -39,14 +39,19 @@ public class ShiftService {
         return new ShiftResDTO(jobId, "complete", result);
     }
 
-    public int[] shiftBy(int[] array, int n) {
-        int len = array.length;
-        if (len == 0) return array;
+    public int[] shiftBy(int[] input, int n) {
+        if (input == null) {
+            throw new IllegalArgumentException("Input array cannot be null");
+        }
+        int length = input.length;
+        if (length == 0 || n % length == 0) {
+            return input;
+        }
+        n = ((n % length) + length) % length;
 
-        int shift = ((n % len) + len) % len;
-        int[] result = new int[len];
-        for (int i = 0; i < len; i++) {
-            result[(i + shift) % len] = array[i];
+        int[] result = new int[length];
+        for (int i = 0; i < length; i++) {
+            result[(i + n) % length] = input[i];
         }
         return result;
     }

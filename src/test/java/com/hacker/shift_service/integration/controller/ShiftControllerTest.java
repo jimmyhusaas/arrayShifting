@@ -41,7 +41,9 @@ public class ShiftControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"array\": [1,2,3,4], \"n\": 2}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.jobId").value(mockJobId));
+                .andExpect(jsonPath("$.status").value(200))
+                .andExpect(jsonPath("$.message").value("Success"))
+                .andExpect(jsonPath("$.data.jobId").value(mockJobId));
     }
 
     @Test
@@ -53,11 +55,13 @@ public class ShiftControllerTest {
 
         mockMvc.perform(get("/shift/" + jobId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.jobId").value(jobId.toString()))
-                .andExpect(jsonPath("$.status").value("complete"))
-                .andExpect(jsonPath("$.result[0]").value(3))
-                .andExpect(jsonPath("$.result[1]").value(4))
-                .andExpect(jsonPath("$.result[2]").value(1))
-                .andExpect(jsonPath("$.result[3]").value(2));
+                .andExpect(jsonPath("$.status").value(200))
+                .andExpect(jsonPath("$.message").value("Success"))
+                .andExpect(jsonPath("$.data.jobId").value(jobId))
+                .andExpect(jsonPath("$.data.status").value("complete"))
+                .andExpect(jsonPath("$.data.result[0]").value(3))
+                .andExpect(jsonPath("$.data.result[1]").value(4))
+                .andExpect(jsonPath("$.data.result[2]").value(1))
+                .andExpect(jsonPath("$.data.result[3]").value(2));
     }
 }

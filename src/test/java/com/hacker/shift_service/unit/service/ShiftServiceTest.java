@@ -6,9 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -19,34 +16,28 @@ public class ShiftServiceTest {
 
     @Test
     void testShiftBy() {
+        // 正常旋轉
+        assertArrayEquals(new int[]{3, 4, 1, 2}, shiftService.shiftBy(new int[]{1, 2, 3, 4}, 2));
 
-        int[] input1 = {1, 2, 3, 4};
-        int[] expected1 = {3, 4, 1, 2};
-        assertArrayEquals(expected1, shiftService.shiftBy(input1, 2));
+        // 空陣列
+        assertArrayEquals(new int[]{}, shiftService.shiftBy(new int[]{}, 2));
 
-        int[] emptyInput = {};
-        int[] expectedEmpty = {};
-        assertArrayEquals(expectedEmpty, shiftService.shiftBy(emptyInput, 2));
+        // 旋轉 0 次應該不變
+        assertArrayEquals(new int[]{1, 2, 3}, shiftService.shiftBy(new int[]{1, 2, 3}, 0));
 
-        int[] input2 = {1, 2, 3};
-        int[] expected2 = {1, 2, 3};
-        assertArrayEquals(expected2, shiftService.shiftBy(input2, 0));
+        // 負數旋轉（左移 1，等效於右移 `length - 1`）
+        assertArrayEquals(new int[]{2, 3, 1}, shiftService.shiftBy(new int[]{1, 2, 3}, -1));
 
-        int[] input3 = {1, 2, 3};
-        int[] expected3 = {2, 3, 1};
-        assertArrayEquals(expected3, shiftService.shiftBy(input3, -1));
+        // 超過長度的旋轉，等效於 `n % length`
+        assertArrayEquals(new int[]{3, 4, 1, 2}, shiftService.shiftBy(new int[]{1, 2, 3, 4}, 6));
 
-        int[] input4 = {1, 2, 3, 4};
-        int[] expected4 = {3, 4, 1, 2};
-        assertArrayEquals(expected4, shiftService.shiftBy(input4, 6));
-
-        int[] input5 = {1, 2, 3, 4};
-        int[] expected5 = {3, 4, 1, 2};
-        assertArrayEquals(expected5, shiftService.shiftBy(input5, -6));
+        // 負數超過長度的旋轉
+        assertArrayEquals(new int[]{3, 4, 1, 2}, shiftService.shiftBy(new int[]{1, 2, 3, 4}, -6));
     }
 
     @Test
     void testShiftByWithNull() {
-        assertThrows(NullPointerException.class, () -> shiftService.shiftBy(null, 2));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> shiftService.shiftBy(null, 2));
+        assertEquals("Input array cannot be null", exception.getMessage());
     }
 }
