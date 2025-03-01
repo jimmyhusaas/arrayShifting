@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: shift-service
+
+  task:
+    execution:
+      thread-name-prefix: shift-executor-
+      pool:
+        core-size: 4
+        max-size: 8
+        queue-capacity: 50
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    root: INFO
+    com.example.shift: DEBUG
